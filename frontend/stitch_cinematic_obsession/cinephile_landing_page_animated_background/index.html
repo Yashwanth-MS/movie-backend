@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CINEPHILE - Find Your Next Obsession</title>
+    <link href="output.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        .glow-button {
+            box-shadow: 0 4px 14px 0 rgba(0, 163, 150, 0.2);
+        }
+
+        .glow-button:hover {
+            box-shadow: 0 6px 20px rgba(0, 163, 150, 0.23);
+        }
+
+        .input-glow:focus {
+            box-shadow: 0 0 0 2px rgba(0, 163, 150, 0.2);
+            border-color: #00a396;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .scroll-track {
+            display: flex;
+            width: max-content;
+            animation: scroll 60s linear infinite;
+        }
+
+        .poster-card {
+            width: 200px;
+            height: 300px;
+            flex-shrink: 0;
+            margin: 0 12px;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            filter: blur(2px);
+        }
+
+        @media (max-width: 768px) {
+            .poster-card {
+                width: 140px;
+                height: 210px;
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+    <!-- TopAppBar -->
+    <header
+        class="bg-surface/80 backdrop-blur-xl w-full top-0 sticky z-50 border-b border-outline-variant/30 shadow-sm">
+        <div class="flex justify-between items-center h-20 px-margin-desktop max-w-container-max-width mx-auto">
+            <!-- Brand -->
+            <a id="logoBtn"
+                class="cursor-pointer text-headline-lg font-headline-lg tracking-tighter text-cine-accent uppercase"
+                href="#">
+                CINEPHILE
+            </a>
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex gap-8 items-center relative">
+                <a id="browseBtn"
+                    class="cursor-pointer font-label-md text-label-md text-cine-accent border-b-2 border-cine-accent pb-1"
+                    href="#">Browse</a>
+                <div class="relative">
+                    <a id="categoriesBtn"
+                        class="cursor-pointer font-label-md text-label-md text-on-surface-variant hover:text-cine-accent transition-colors select-none"
+                        href="#">Categories</a>
+                    <!-- Sleek Dropdown Menu -->
+                    <div id="categoriesDropdown"
+                        class="absolute left-0 mt-3 w-48 bg-surface-container-lowest border border-outline-variant/30 rounded-xl shadow-xl py-2 hidden z-[60] transition-all duration-300 transform scale-95 opacity-0 origin-top-right">
+                        <button
+                            class="genre-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-genre="Action">Action</button>
+                        <button
+                            class="genre-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-genre="Comedy">Comedy</button>
+                        <button
+                            class="genre-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-genre="Sci-Fi">Sci-Fi</button>
+                        <button
+                            class="genre-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-genre="Romance">Romance</button>
+                        <button
+                            class="genre-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-genre="Horror">Horror</button>
+                        <button
+                            class="genre-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-genre="Animation">Animation</button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <a id="languagesBtn"
+                        class="cursor-pointer font-label-md text-label-md text-on-surface-variant hover:text-cine-accent transition-colors select-none"
+                        href="#">Languages</a>
+                    <!-- Sleek Dropdown Menu for Languages -->
+                    <div id="languagesDropdown"
+                        class="absolute left-0 mt-3 w-48 bg-surface-container-lowest border border-outline-variant/30 rounded-xl shadow-xl py-2 hidden z-[60] transition-all duration-300 transform scale-95 opacity-0 origin-top-right">
+                        <button
+                            class="lang-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-lang="en">English</button>
+                        <button
+                            class="lang-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-lang="hi">Hindi</button>
+                        <button
+                            class="lang-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-lang="es">Spanish</button>
+                        <button
+                            class="lang-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-lang="fr">French</button>
+                        <button
+                            class="lang-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-lang="ja">Japanese</button>
+                        <button
+                            class="lang-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-lang="de">German</button>
+                        <button
+                            class="lang-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-lang="it">Italian</button>
+                        <button
+                            class="lang-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-lang="ru">Russian</button>
+                        <button
+                            class="lang-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-lang="ko">Korean</button>
+                        <button
+                            class="lang-tag w-full text-left px-4 py-2 hover:bg-cine-accent hover:text-white font-label-md text-label-md text-on-surface transition-colors"
+                            data-lang="zh">Chinese</button>
+                    </div>
+                </div>
+            </nav>
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+            </div>
+        </div>
+    </header>
+    <!-- Main Content Canvas -->
+    <main class="flex-grow relative flex items-center justify-center overflow-hidden min-h-[calc(100vh-80px)]">
+        <!-- Background Animated Posters -->
+        <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            <!-- Semi-transparent light mode overlay to keep focus on foreground -->
+            <div class="absolute inset-0 bg-surface/5 z-10"></div>
+            <!-- Track Container -->
+            <div class="flex flex-col h-full justify-center space-y-12 opacity-100">
+                <div class="scroll-track">
+                    <!-- Duplicate content for seamless loop -->
+                    <div class="flex">
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster1.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster2.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster3.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster4.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster5.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster1.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster2.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster3.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster4.jpg" /></div>
+                    </div>
+                    <!-- Repeated for seamlessness -->
+                    <div class="flex">
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster1.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster2.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster3.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster4.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster5.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster1.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster2.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster3.jpg" /></div>
+                        <div class="poster-card"><img class="w-full h-full object-cover" src="poster4.jpg" /></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Gradient Overlays for smooth edges -->
+            <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface z-10"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-surface via-transparent to-surface z-10"></div>
+        </div>
+        <!-- Foreground Content -->
+        <div id="heroSection"
+            class="relative z-20 w-full max-w-4xl mx-auto px-margin-mobile md:px-margin-tablet flex flex-col items-center text-center space-y-12">
+            <div class="space-y-4">
+                <h1
+                    class="font-display-xl-mobile md:font-display-xl text-display-xl-mobile md:text-display-xl text-on-surface tracking-tight">
+                    Find Your Next Obsession
+                </h1>
+                <p
+                    class="font-body-lg text-body-lg text-on-surface max-w-2xl mx-auto bg-surface/80 backdrop-blur-md px-8 py-4 rounded-2xl shadow-lg border border-outline-variant/30 font-medium">
+                    Immerse yourself in a world of cinema. Tell us what you love, and let our algorithm curate the
+                    perfect screening.
+                </p>
+            </div>
+            <!-- Search Area -->
+            <div class="w-full max-w-2xl flex flex-col sm:flex-row gap-4 items-center">
+                <div class="relative flex-grow w-full">
+                    <span
+                        class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+                    <input id="searchInput"
+                        class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface placeholder:text-outline rounded-xl py-4 pl-12 pr-6 font-body-lg text-body-lg focus:outline-none input-glow transition-all duration-300"
+                        placeholder="Movies, directors, genres..." type="text" />
+                </div>
+                <button id="recommendBtn"
+                    class="w-full sm:w-auto bg-cine-accent text-on-primary px-8 py-4 rounded-xl font-label-md text-label-md uppercase tracking-widest glow-button hover:scale-105 transition-transform duration-300 whitespace-nowrap flex items-center justify-center gap-2 font-bold">
+                    Recommend
+                    <span class="material-symbols-outlined text-[20px]"
+                        style='font-variation-settings: "FILL" 1;'>movie</span>
+                </button>
+            </div>
+            <!-- Suggestion Chips -->
+            <div class="flex flex-wrap justify-center gap-3 pt-8">
+                <span
+                    class="text-label-sm text-on-surface-variant uppercase tracking-widest mr-2 self-center">Trending:</span>
+                <button
+                    class="bg-surface-container-low border border-outline-variant text-on-surface px-4 py-1.5 rounded-full font-label-sm text-label-sm hover:border-cine-accent hover:text-cine-accent transition-colors">Interstellar</button>
+                <button
+                    class="bg-surface-container-low border border-outline-variant text-on-surface px-4 py-1.5 rounded-full font-label-sm text-label-sm hover:border-cine-accent hover:text-cine-accent transition-colors">Avatar</button>
+                <button
+                    class="bg-surface-container-low border border-outline-variant text-on-surface px-4 py-1.5 rounded-full font-label-sm text-label-sm hover:border-cine-accent hover:text-cine-accent transition-colors">Drive</button>
+            </div>
+        </div>
+
+        <!-- Results Container -->
+        <div id="resultsContainer"
+            class="w-full max-w-6xl mx-auto px-4 mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 relative z-30 pb-12 hidden">
+        </div>
+
+        <!-- Movie Details Modal -->
+        <div id="movieModal"
+            class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-opacity">
+            <div
+                class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl w-full max-w-4xl flex flex-col md:flex-row overflow-hidden shadow-2xl relative">
+                <!-- Close Button -->
+                <button id="closeModalBtn" type="button"
+                    class="absolute top-4 right-4 z-10 bg-surface/50 hover:bg-surface text-on-surface p-2 rounded-full backdrop-blur-md transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+
+                <!-- Poster -->
+                <div class="w-full md:w-1/2 md:max-w-md aspect-[2/3] md:aspect-auto">
+                    <img id="modalPoster" src="" alt="Poster" class="w-full h-full object-cover"
+                        onerror="this.src='https://via.placeholder.com/500x750?text=No+Poster'" />
+                </div>
+
+                <!-- Details -->
+                <div class="w-full md:w-1/2 p-8 flex flex-col justify-center space-y-6 overflow-y-auto max-h-[80vh]">
+                    <div>
+                        <h2 id="modalTitle" class="font-display-md text-display-md text-on-surface tracking-tight mb-2">
+                            Movie Title</h2>
+                        <div class="flex flex-wrap gap-3 font-label-md text-label-md text-on-surface-variant">
+                            <span id="modalYear"></span>
+                            <span>•</span>
+                            <span id="modalRuntime"></span>
+                            <span>•</span>
+                            <span id="modalGenre"
+                                class="text-cine-accent border border-cine-accent/30 px-2 rounded-md"></span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[24px] text-[#f5c518]"
+                            style='font-variation-settings: "FILL" 1;'>star</span>
+                        <span id="modalRating"
+                            class="font-headline-sm text-headline-sm font-bold text-on-surface"></span>
+                        <span class="font-label-sm text-label-sm text-on-surface-variant">/ 10 IMDb</span>
+                    </div>
+
+                    <div>
+                        <h3 class="font-label-lg text-label-lg text-on-surface mb-2 uppercase tracking-wider">Plot
+                            Summary</h3>
+                        <p id="modalPlot" class="font-body-md text-body-md text-on-surface-variant leading-relaxed"></p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-label-lg text-label-lg text-on-surface mb-2 uppercase tracking-wider">Cast</h3>
+                        <p id="modalActors" class="font-body-md text-body-md text-on-surface-variant"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest w-full py-12 border-t border-outline-variant/30 relative z-10">
+        <div
+            class="flex flex-col md:flex-row justify-between items-center px-margin-desktop max-w-container-max-width mx-auto gap-8">
+            <div class="text-headline-md font-headline-md text-cine-accent uppercase">
+                CINEPHILE
+            </div>
+            <nav class="flex flex-wrap justify-center gap-6">
+                <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-cine-accent transition-colors"
+                    href="#">Privacy Policy</a>
+                <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-cine-accent transition-colors"
+                    href="#">Terms of Service</a>
+                <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-cine-accent transition-colors"
+                    href="#">Help Center</a>
+                <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-cine-accent transition-colors"
+                    href="#">API Reference</a>
+            </nav>
+            <div class="font-body-md text-body-md text-on-surface-variant text-sm">
+                © 2024 CINEPHILE. IMMERSIVE CINEMATIC EXPERIENCE.
+            </div>
+        </div>
+    </footer>
+    <script>
+        // =========================================================================
+        // CONFIGURATION: If deploying to production (e.g. Render), replace this 
+        // with your own deployed backend service URL (e.g. https://your-app.onrender.com)
+        // =========================================================================
+        const PRODUCTION_API_URL = "https://my-movie-api-71fv.onrender.com";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const recommendBtn = document.getElementById('recommendBtn');
+            const searchInput = document.getElementById('searchInput');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const heroSection = document.getElementById('heroSection');
+            const logoBtn = document.getElementById('logoBtn');
+            const browseBtn = document.getElementById('browseBtn');
+            const categoriesBtn = document.getElementById('categoriesBtn');
+            const categoriesDropdown = document.getElementById('categoriesDropdown');
+            const languagesBtn = document.getElementById('languagesBtn');
+            const languagesDropdown = document.getElementById('languagesDropdown');
+
+            const modal = document.getElementById('movieModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const modalPoster = document.getElementById('modalPoster');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalYear = document.getElementById('modalYear');
+            const modalRuntime = document.getElementById('modalRuntime');
+            const modalGenre = document.getElementById('modalGenre');
+            const modalRating = document.getElementById('modalRating');
+            const modalPlot = document.getElementById('modalPlot');
+            const modalActors = document.getElementById('modalActors');
+
+            const connectionErrorHTML = `
+                <div class="col-span-full text-center text-error font-body-lg bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-md max-w-2xl mx-auto my-6 animate-pulse">
+                    <span class="material-symbols-outlined text-error text-[48px] mb-2 block">cloud_off</span>
+                    <h4 class="font-bold text-headline-sm mb-2 text-on-surface">Unable to Connect to Backend</h4>
+                    <p class="text-on-surface-variant mb-4">We couldn't connect to either your local server or the production Render API.</p>
+                    <div class="text-left bg-surface-container-low p-4 rounded-xl border border-outline-variant/20">
+                        <span class="font-bold text-label-md text-on-surface block mb-2">How to fix this:</span>
+                        <ul class="list-disc list-inside text-body-md text-on-surface-variant space-y-2">
+                            <li><strong>Run Local Server (Recommended):</strong> Run <code class="bg-surface-container-high px-1.5 py-0.5 rounded text-error font-mono font-bold">python main.py</code> in your project folder, then open <a href="http://127.0.0.1:8000" class="text-cine-accent hover:underline font-bold">http://127.0.0.1:8000</a> in your browser.</li>
+                            <li><strong>Wait for Production API:</strong> The online database (Render free tier) spins down after 15 minutes of inactivity. It can take up to 60 seconds to wake up. Please wait and try again.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+
+            const resetUI = (e) => {
+                if (e) e.preventDefault();
+                if (history.state && history.state.view !== 'home') {
+                    history.pushState({ view: 'home' }, '', window.location.pathname);
+                }
+                heroSection.classList.remove('hidden');
+                resultsContainer.classList.add('hidden');
+                resultsContainer.innerHTML = '';
+                searchInput.value = '';
+                modal.classList.add('hidden');
+                categoriesDropdown.classList.add('hidden');
+                categoriesDropdown.classList.remove('scale-100', 'opacity-100');
+                categoriesDropdown.classList.add('scale-95', 'opacity-0');
+                languagesDropdown.classList.add('hidden');
+                languagesDropdown.classList.remove('scale-100', 'opacity-100');
+                languagesDropdown.classList.add('scale-95', 'opacity-0');
+            };
+
+            logoBtn.addEventListener('click', resetUI);
+            browseBtn.addEventListener('click', resetUI);
+
+            // Toggle Categories dropdown menu
+            categoriesBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Close other dropdown first
+                languagesDropdown.classList.remove('scale-100', 'opacity-100');
+                languagesDropdown.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    if (languagesDropdown.classList.contains('opacity-0')) {
+                        languagesDropdown.classList.add('hidden');
+                    }
+                }, 300);
+
+                const isHidden = categoriesDropdown.classList.contains('hidden');
+                if (isHidden) {
+                    categoriesDropdown.classList.remove('hidden');
+                    // Trigger reflow for animation transition
+                    categoriesDropdown.offsetHeight;
+                    categoriesDropdown.classList.remove('scale-95', 'opacity-0');
+                    categoriesDropdown.classList.add('scale-100', 'opacity-100');
+                } else {
+                    categoriesDropdown.classList.remove('scale-100', 'opacity-100');
+                    categoriesDropdown.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        if (categoriesDropdown.classList.contains('opacity-0')) {
+                            categoriesDropdown.classList.add('hidden');
+                        }
+                    }, 300);
+                }
+            });
+
+            // Toggle Languages dropdown menu
+            languagesBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Close other dropdown first
+                categoriesDropdown.classList.remove('scale-100', 'opacity-100');
+                categoriesDropdown.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    if (categoriesDropdown.classList.contains('opacity-0')) {
+                        categoriesDropdown.classList.add('hidden');
+                    }
+                }, 300);
+
+                const isHidden = languagesDropdown.classList.contains('hidden');
+                if (isHidden) {
+                    languagesDropdown.classList.remove('hidden');
+                    // Trigger reflow for animation transition
+                    languagesDropdown.offsetHeight;
+                    languagesDropdown.classList.remove('scale-95', 'opacity-0');
+                    languagesDropdown.classList.add('scale-100', 'opacity-100');
+                } else {
+                    languagesDropdown.classList.remove('scale-100', 'opacity-100');
+                    languagesDropdown.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        if (languagesDropdown.classList.contains('opacity-0')) {
+                            languagesDropdown.classList.add('hidden');
+                        }
+                    }, 300);
+                }
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', () => {
+                categoriesDropdown.classList.remove('scale-100', 'opacity-100');
+                categoriesDropdown.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    if (categoriesDropdown.classList.contains('opacity-0')) {
+                        categoriesDropdown.classList.add('hidden');
+                    }
+                }, 300);
+
+                languagesDropdown.classList.remove('scale-100', 'opacity-100');
+                languagesDropdown.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    if (languagesDropdown.classList.contains('opacity-0')) {
+                        languagesDropdown.classList.add('hidden');
+                    }
+                }, 300);
+            });
+
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', (e) => {
+                if (!e.state || e.state.view === 'home') {
+                    heroSection.classList.remove('hidden');
+                    resultsContainer.classList.add('hidden');
+                    modal.classList.add('hidden');
+                } else if (e.state && e.state.view === 'results') {
+                    heroSection.classList.add('hidden');
+                    resultsContainer.classList.remove('hidden');
+                    modal.classList.add('hidden');
+                } else if (e.state && e.state.view === 'modal') {
+                    heroSection.classList.add('hidden');
+                    resultsContainer.classList.remove('hidden');
+                    modal.classList.remove('hidden');
+                }
+            });
+
+            closeModalBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                modal.classList.add('hidden');
+            });
+
+            const openModal = async (title) => {
+                if (!history.state || history.state.view !== 'modal') {
+                    history.pushState({ view: 'modal' }, '', window.location.pathname);
+                }
+                modal.classList.remove('hidden');
+                modalTitle.textContent = "Loading...";
+                modalPlot.textContent = "Fetching details from OMDb...";
+                modalPoster.src = "https://via.placeholder.com/500x750?text=Loading...";
+                modalYear.textContent = "";
+                modalRuntime.textContent = "";
+                modalGenre.textContent = "";
+                modalRating.textContent = "";
+                modalActors.textContent = "";
+
+                try {
+                    const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=352ae29e`);
+                    const data = await response.json();
+
+                    if (data.Response === "True") {
+                        modalTitle.textContent = data.Title;
+                        modalPoster.src = data.Poster !== "N/A" ? data.Poster : 'https://via.placeholder.com/500x750?text=No+Poster';
+                        modalYear.textContent = data.Year;
+                        modalRuntime.textContent = data.Runtime;
+                        modalGenre.textContent = data.Genre;
+                        modalRating.textContent = data.imdbRating;
+                        modalPlot.textContent = data.Plot;
+                        modalActors.textContent = data.Actors;
+                    } else {
+                        modalTitle.textContent = title;
+                        modalPlot.textContent = "Details not found.";
+                        modalPoster.src = 'https://via.placeholder.com/500x750?text=No+Poster';
+                    }
+                } catch (e) {
+                    modalTitle.textContent = title;
+                    modalPlot.textContent = "Error fetching details.";
+                    modalPoster.src = 'https://via.placeholder.com/500x750?text=Error';
+                }
+            };
+
+            // Common helper to render movie cards to the grid
+            const renderMovies = (movies) => {
+                resultsContainer.innerHTML = '';
+                movies.forEach(movie => {
+                    const card = document.createElement('div');
+                    card.className = "cursor-pointer flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-outline-variant/30 hover:scale-[1.02] transition-transform duration-300";
+                    card.innerHTML = `
+                        <div class="w-full aspect-[2/3] relative">
+                            <img src="${movie.poster}" alt="${movie.title}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/500x750?text=No+Poster'"/>
+                            <div class="absolute top-2 right-2 bg-surface/90 text-on-surface px-2 py-1 rounded text-label-sm font-bold flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[16px] text-[#f5c518]" style='font-variation-settings: "FILL" 1;'>star</span>
+                                ${movie.rating}
+                            </div>
+                        </div>
+                        <div class="p-4 flex flex-col gap-1">
+                            <h3 class="font-headline-md text-headline-md text-on-surface truncate" title="${movie.title}">${movie.title}</h3>
+                            <p class="font-label-md text-label-md text-on-surface-variant">${movie.year}</p>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => openModal(movie.title));
+                    resultsContainer.appendChild(card);
+                });
+            };
+
+            const fetchFromAPI = async (endpoint, params) => {
+                const query = new URLSearchParams(params).toString();
+
+                // Determine the base URL: if served from localhost/127.0.0.1, use relative paths to prevent CORS issues.
+                // Otherwise, try to connect to the local server explicitly first, then fall back to the production API.
+                const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+                if (isLocalHost) {
+                    try {
+                        const localResponse = await fetch(`/${endpoint}?${query}`);
+                        if (localResponse.ok) {
+                            return await localResponse.json();
+                        }
+                    } catch (e) {
+                        console.warn("Relative fetch failed, falling back to absolute URL...", e);
+                    }
+                }
+
+                // Try absolute local URL next
+                try {
+                    const localResponse = await fetch(`http://127.0.0.1:8000/${endpoint}?${query}`);
+                    if (localResponse.ok) {
+                        return await localResponse.json();
+                    }
+                } catch (e) {
+                    console.warn("Local server not reachable, falling back to production Render API...", e);
+                }
+
+                // Fall back to production Render API
+                try {
+                    const prodResponse = await fetch(`${PRODUCTION_API_URL}/${endpoint}?${query}`);
+                    if (prodResponse.ok) {
+                        return await prodResponse.json();
+                    }
+                    throw new Error(`Production API returned status: ${prodResponse.status}`);
+                } catch (e) {
+                    console.error("Production Render API error:", e);
+                    throw e;
+                }
+            };
+
+            const fetchRecommendations = async () => {
+                const movieName = searchInput.value.trim();
+                if (!movieName) return;
+
+                recommendBtn.innerHTML = `Loading...`;
+                resultsContainer.innerHTML = '';
+
+                try {
+                    const data = await fetchFromAPI('recommend', { movie_name: movieName });
+
+                    if (!history.state || history.state.view !== 'results') {
+                        history.pushState({ view: 'results' }, '', window.location.pathname);
+                    }
+                    heroSection.classList.add('hidden');
+                    resultsContainer.classList.remove('hidden');
+
+                    if (data.error) {
+                        resultsContainer.innerHTML = `<div class="col-span-full text-center text-error font-body-lg bg-surface-container-lowest p-4 rounded-xl">${data.error}</div>`;
+                    } else if (data.recommendations) {
+                        renderMovies(data.recommendations);
+                    }
+                } catch (error) {
+                    console.error("Error fetching recommendations:", error);
+                    resultsContainer.innerHTML = connectionErrorHTML;
+                } finally {
+                    recommendBtn.innerHTML = `Recommend <span class="material-symbols-outlined text-[20px]" style='font-variation-settings: "FILL" 1;'>movie</span>`;
+                }
+            };
+
+            const fetchGenreRecommendations = async (genreName) => {
+                resultsContainer.innerHTML = '';
+                resultsContainer.innerHTML = `<div class="col-span-full text-center text-on-surface font-body-lg bg-surface-container-lowest p-4 rounded-xl">Loading ${genreName} movies...</div>`;
+
+                if (!history.state || history.state.view !== 'results') {
+                    history.pushState({ view: 'results' }, '', window.location.pathname);
+                }
+                heroSection.classList.add('hidden');
+                resultsContainer.classList.remove('hidden');
+
+                try {
+                    const data = await fetchFromAPI('genre', { genre_name: genreName });
+
+                    if (data.error) {
+                        resultsContainer.innerHTML = `<div class="col-span-full text-center text-error font-body-lg bg-surface-container-lowest p-4 rounded-xl">${data.error}</div>`;
+                    } else if (data.recommendations) {
+                        renderMovies(data.recommendations);
+                    }
+                } catch (error) {
+                    console.error("Error fetching genre recommendations:", error);
+                    resultsContainer.innerHTML = connectionErrorHTML;
+                }
+            };
+
+            const fetchLanguageRecommendations = async (langCode, langName) => {
+                resultsContainer.innerHTML = '';
+                resultsContainer.innerHTML = `<div class="col-span-full text-center text-on-surface font-body-lg bg-surface-container-lowest p-4 rounded-xl">Loading ${langName} movies...</div>`;
+
+                if (!history.state || history.state.view !== 'results') {
+                    history.pushState({ view: 'results' }, '', window.location.pathname);
+                }
+                heroSection.classList.add('hidden');
+                resultsContainer.classList.remove('hidden');
+
+                try {
+                    const data = await fetchFromAPI('language', { language_code: langCode });
+
+                    if (data.error) {
+                        resultsContainer.innerHTML = `<div class="col-span-full text-center text-error font-body-lg bg-surface-container-lowest p-4 rounded-xl">${data.error}</div>`;
+                    } else if (data.recommendations) {
+                        renderMovies(data.recommendations);
+                    }
+                } catch (error) {
+                    console.error("Error fetching language recommendations:", error);
+                    resultsContainer.innerHTML = connectionErrorHTML;
+                }
+            };
+
+            recommendBtn.addEventListener('click', fetchRecommendations);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    fetchRecommendations();
+                }
+            });
+
+            // Add logic to Trending chips
+            document.querySelectorAll('#heroSection button.rounded-full').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    let query = chip.textContent.trim();
+                    searchInput.value = query;
+                    fetchRecommendations();
+                });
+            });
+
+            // Add logic to Genre tags in the Category dropdown
+            document.querySelectorAll('.genre-tag').forEach(tag => {
+                tag.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const genre = tag.getAttribute('data-genre');
+
+                    // Close the dropdown cleanly
+                    categoriesDropdown.classList.remove('scale-100', 'opacity-100');
+                    categoriesDropdown.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        categoriesDropdown.classList.add('hidden');
+                    }, 300);
+
+                    fetchGenreRecommendations(genre);
+                });
+            });
+
+            // Add logic to Language tags in the Language dropdown
+            document.querySelectorAll('.lang-tag').forEach(tag => {
+                tag.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const langCode = tag.getAttribute('data-lang');
+                    const langName = tag.textContent.trim();
+
+                    // Close the dropdown cleanly
+                    languagesDropdown.classList.remove('scale-100', 'opacity-100');
+                    languagesDropdown.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        languagesDropdown.classList.add('hidden');
+                    }, 300);
+
+                    fetchLanguageRecommendations(langCode, langName);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
